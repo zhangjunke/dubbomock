@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>修改mock信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="style/adminStyle.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+ <div class="wrap">
+  <div class="page-title">
+    <span class="modular fl"><i class="edit_user"></i><em>修改mock信息</em></span>
+  </div>
+  <style>
+   body{ text-align:center}
+   .div{ margin:0 auto; width:950px; height:800px; border:1px solid #FFFFFF}
+  </style>
+  <div class="div">
+   <tr>
+    <td style="width:15%;text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统id：</td>
+    <td><input type="text" style="width:500px" class="textBox length-middle" id ="id2" /></td>
+   </tr>
+   <br/>
+   <br/>
+   <tr>
+    <td style="width:15%;text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock场景：</td>
+    <td><input type="text" style="width:500px" class="textBox length-middle" id ="mockCaseName2" /></td>
+   </tr>
+   <br/>
+   <br/>
+   <tr>
+    <td style="text-align:right;">mock超时时间(ms)：</td>
+    <td><input id ="mockTimeout2" class="textBox length-middle"  style="width:500px" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" ></td>
+   </tr>
+   <br/>
+   <br/>
+
+   <div  id='responseParaList'>
+   </div>
+
+   <td style="text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock条件：</td>
+   <select id="conditionParaList" style="width:200px;height:28px"></select>=<input type="text" style="width:286px" class="textBox length-middle" id ="conditionValue"  />
+   <br/>
+   <br/>
+
+<!--     <tr>
+    <td style="text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock返回值：</td>
+      <select name="responseMsg" id="responseMsg" style="width:200px" onchange="changeSelect3(this.selectedIndex)" class="inline-select"></select>
+      =<input type="text" style="width:287px" class="textBox length-middle" id ="responseMsgValue"  />
+     </tr>-->
+   <!--
+   <td style="text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock条件：</td>
+   <select name="condition" id="condition" style="width:200px" onchange="changeSelect4(this.selectedIndex)" class="inline-select"></select>
+   =<input type="text" style="width:287px" class="textBox length-middle" id ="conditionValue"  />-->
+<!--     <tr>
+    <td style="text-align:right;">mock生效条件：</td>
+    <td><input type="text" class="textBox length-middle" id ="mockMsg2" /></td>
+   </tr>
+   -->
+
+   <script language="javascript" type="text/javascript">
+       var loc = location.search;
+       var loc1=decodeURI(loc.replace("?",""));
+       var locArray=loc1.split("&amp;");
+       var n1 = locArray[0].length;//地址的总长度mockCaseName="余额不足投资理财失败"&amp;mockCode="200"&amp;mockTime="500"&amp;mockMsg=%7B"code":"0001","msg":"余额不足"%7D&amp;id=6
+       var n2 = locArray[0].indexOf("=");//取得=号的位置
+       var mockCaseName2 = locArray[0].substr(n2+2, n1-1).replace("\"","");//从=号后面的内容
+
+       var n3 = locArray[1].length;//地址的总长度
+       var n4 = locArray[1].indexOf("=");//取得=号的位置
+       var mockTimeout2 = locArray[1].substr(n4+2, n3-1).replace("\"","");//从=号后面的内容
+
+       var n5 = locArray[2].length;//地址的总长度
+       var n6 = locArray[2].indexOf("=");//取得=号的位置
+       var mockMsg2 = locArray[2].substr(n6+2, n5-1).replace("\"","");//从=号后面的内容
+
+       var n7 = locArray[3].length;//地址的总长度
+       var n8 = locArray[3].indexOf("=");//取得=号的位置
+       var mockCondition2 = locArray[3].substr(n8+2, n7-1).replace("\"","");//从=号后面的内容
+
+       var n9 = locArray[4].length;//地址的总长度
+       var n10 = locArray[4].indexOf("=");//取得=号的位置
+       var id2 = locArray[4].substr(n10+1, n9-1);//从=号后面的内容
+
+       var n11 = locArray[5].length;//地址的总长度
+       var n12 = locArray[5].indexOf("=");//取得=号的位置
+       var API = locArray[5].substr(n12+1, n11-1);//从=号后面的内容
+
+       $("#mockCaseName2").val(mockCaseName2);
+       $("#mockTimeout2").val(mockTimeout2);
+       $("#id2").val(id2);
+
+       var searchUrl='/dubbomock/mocker/MockAPIParaSearch/mockAPI='+API;
+       $.get(searchUrl, function (list1) {
+           var data1 = JSON.parse(list1);
+           var list = data1.list;
+           var input = list[0].input;
+           var option1 = document.createElement('select');
+           var conList = input.replace("{", "").replace("}", "").split(",");
+           var msgList=mockMsg2.split(",");
+
+           var c = document.getElementById("responseParaList");
+           c.innerHTML = "" ;
+           var string="";
+           for (var i = 0; i < msgList.length; i++) {
+               var selectstring="select"+i;
+               var valuestring="value"+i;
+               var msgKey=msgList[i].split("=")[0].replace("\"","");
+               var msgValue=msgList[i].split("=")[1].replace("\"","");
+               string+="<td style='text-align:right;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock返回值：</td>";
+               string+= "<select name='responseMsg' style='width:200px;height:28px'  class='inline-select'id="+selectstring+" >" ;
+               string+="<option value='1' style='width:200px;height:28px' >"+msgKey;
+               string+="</select>=";
+               string+="<input type='text' style='width:287px' class='textBox length-middle' value="+msgValue+" id="+valuestring+" />"+"<br/>\n<br/>";
+               c.innerHTML = string ;
+           }
+
+           var unitObj2 = document.getElementById("conditionParaList");
+           unitObj2.options.add(new Option("暂不设置", 0));
+           unitObj2.options.add(new Option("全部生效", 1));
+           var conditionKey=mockCondition2.replace("\"","").split("=")[0];
+           var conditionValue=mockCondition2.replace("\"","").split("=")[1];
+           for (var j = 0; j < conList.length; j++) {
+               unitObj2.options.add(new Option(conList[j],j+2));
+           }
+           if(conditionKey!=""&&conditionKey!="ALL"){
+               $("#conditionValue").val(conditionValue);
+               for (var k = 0; k < conList.length+2; k++) {
+                   if(unitObj2.options[k].text == conditionKey)
+                   {
+                       unitObj2.options[k].selected = true;
+                       break;
+                   }
+               }
+           }
+           else if(conditionKey==""){
+               unitObj2.options[0].selected = true;
+           }
+           else if(conditionKey=="ALL"){
+               unitObj2.options[1].selected = true;
+           }
+       })
+   </script>
+
+   <tr>
+    <td style="text-align:right;"></td>
+    <td><input type="submit" class="tdBtn" value="提交" onclick="modifySubmit(id2,mockCondition2)"/></td>
+   </tr>
+
+ </div>
+
+ </div>
+ <script src="js/edit.js"></script>
+</body>
+</html>

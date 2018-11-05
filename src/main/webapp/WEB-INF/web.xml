@@ -1,0 +1,88 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="dubbomock" version="2.5">
+
+  <display-name>dubbomock</display-name>
+  <servlet>
+    <servlet-name>IndexPageServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.IndexPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexPageServlet</servlet-name>
+    <url-pattern>/mocker/index/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SelectOptionServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.SelectOptionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectOptionServlet</servlet-name>
+    <url-pattern>/mocker/selectOption/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MockAPIParaSearchServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.MockAPIParaSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MockAPIParaSearchServlet</servlet-name>
+    <url-pattern>/mocker/MockAPIParaSearch/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MockDetailSearchServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.MockDetailSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MockDetailSearchServlet</servlet-name>
+    <url-pattern>/mocker/MockDetailSearch</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MockAuthorCreateServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.MockAuthorCreateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MockAuthorCreateServlet</servlet-name>
+    <url-pattern>/mocker/MockAuthorCreate</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  <servlet-name>MockDetailCreateServlet</servlet-name>
+  <servlet-class>com.junker.dubbomock.frontend.servlet.MockDetailCreateServlet</servlet-class>
+</servlet>
+  <servlet-mapping>
+    <servlet-name>MockDetailCreateServlet</servlet-name>
+    <url-pattern>/mocker/MockDetailCreate</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MockDetailDeleteServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.MockDetailDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MockDetailDeleteServlet</servlet-name>
+    <url-pattern>/mocker/DeleteDetail</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ModifySubmitServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.ModifySubmitServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifySubmitServlet</servlet-name>
+    <url-pattern>/mocker/ModifySubmit</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DubboStartServlet</servlet-name>
+    <servlet-class>com.junker.dubbomock.frontend.servlet.DubboStartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DubboStartServlet</servlet-name>
+    <url-pattern>/mocker/DubboStartServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

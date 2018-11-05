@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>新增mock信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="style/adminStyle.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div class="page-title">
+        <span class="modular fl"><i class="edit_user"></i><em>新增mock信息</em></span>
+    </div>
+    <style>
+        body{ text-align:center}
+        .div{ margin:0 auto; width:950px; height:800px; border:1px solid #FFFFFF}
+    </style>
+    <style>
+        body{ text-align:center}
+        .div1{ margin:0 auto; width:950px; height:100px; border:1px solid #FFFFFF}
+    </style>
+
+<!--    <table class="list-style">-->
+        <div class="div" id="createDetailID">
+
+            <td style="width:15%;text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock场景：</td>
+            <td><input type="text" style="width:500px" class="textBox length-middle" placeholder="e.g:测试投资成功" id ="mockCaseName"  /></td>
+            <br/>
+            <br/>
+
+            <td style="text-align:right;">mock超时时间(ms)：</td>
+            <td><input id ="mockTimeout" class="textBox length-middle"  style="width:500px" onkeyup="this.value=this.value.replace(/\D/g,'')"  placeholder="代表多少毫秒后返回数据。e.g:1000" onafterpaste="this.value=this.value.replace(/\D/g,'')" ></td>
+            <br/>
+            <br/>
+
+            <div  id='responseParaList'>
+            </div>
+
+            <td style="text-align:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock条件：</td>
+            <select id="conditionParaList" style="width:200px;height:28px"></select>=<input type="text" style="width:286px" class="textBox length-middle" id ="conditionValue"  />
+            <br/>
+            <br/>
+        <tr>
+            <td style="text-align:center;"></td>
+              <td><input type="submit" class="tdBtn" value="提交" onclick="createDetailSubmit()"/></td>
+        </tr>
+        </div>
+<!--    </table>-->
+</div>
+<script language="javascript" type="text/javascript">
+    var urlprefix="/dubbomock";
+    var loc = location.search;
+    var loc1=decodeURI(loc.replace("?",""));
+    var locArray=loc1.split("=");
+    var mockAPIname =locArray[2];
+    var searchUrl=urlprefix+'/mocker/MockAPIParaSearch/mockAPI='+mockAPIname;
+
+    $.get(searchUrl, function (list1) {
+        var data1 = JSON.parse(list1);
+        var list = data1.list;
+        var input = list[0].input;
+        var output = list[1].output;
+        var option1 = document.createElement('select');
+
+        var inputList = input.replace("{", "").replace("}", "").split(",");
+        var outputList = output.replace("{", "").replace("}", "").split(",");
+        var c = document.getElementById("responseParaList");
+        c.innerHTML = "" ;
+        var string="";
+        for (var i = 0; i < outputList.length; i++) {
+            var selectstring="select"+i;
+            var valuestring="value"+i;
+            string+="<td style='text-align:right;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mock返回值：</td>";
+            string+= "<select name='responseMsg' style='width:200px;height:28px'  class='inline-select'id="+selectstring+" >" ;
+            string+="<option value='1' style='width:200px;height:28px' >"+outputList[i];
+            string+="</select>=";
+            string+="<input type='text' style='width:287px' class='textBox length-middle' id="+valuestring+" />"+"<br/>\n<br/>";
+            c.innerHTML = string ;
+            }
+
+        var unitObj2 = document.getElementById("conditionParaList");
+        unitObj2.options.add(new Option("暂不设置", 0));
+        unitObj2.options.add(new Option("全部生效", 1));
+        for (var k = 0; k < inputList.length; k++) {
+            unitObj2.options.add(new Option(inputList[k],k));
+        }
+    })
+
+</script>
+
+<script src="js/edit.js"></script>
+
+</body>
+</html>
